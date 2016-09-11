@@ -5,13 +5,13 @@
 	<title>JPMC Prep: Angular App</title>
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="app.js"></script>
+	<script src="todo_controller.js"></script>
 </head>
 <body ng-controller="TodoController">
-	<input ng-model="name" placeholder="name"> Hello {{ name }}>
-
 	<ul>
 		<li ng-repeat="todo in todos">
-			
+			<input type="checkbox" ng-model="todo.completed">
+		 	{{ todo.title }}
 		</li>
 	</ul>
 </body>
