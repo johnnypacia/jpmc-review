@@ -3,9 +3,14 @@ console.log("main jsx linked");
 var React = require("react");
 var ReactDOM = require("react-dom");
 var AccountsList = require("./components/AccountsList.jsx");
+var accountsStore = require("./stores/accountsStore");
+var _accounts = accountsStore.getAccounts();
 
-var _accounts = [{name:"Lovedale",tagline:"this is a wonderful Chase account"}, 
-				 {name:"Bishop",tagline:"Another great Chase account"}];
+accountsStore.onChange(function(accounts){
+	_accounts = accounts;
+	render();
+});
+
 
 function render(){
 	ReactDOM.render(<AccountsList accounts={_accounts} />, document.getElementById("container"));
