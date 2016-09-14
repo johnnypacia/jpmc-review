@@ -4,12 +4,13 @@ var React = require("react");
 var ReactDOM = require("react-dom");
 var AccountsList = require("./components/AccountsList.jsx");
 var accountsStore = require("./stores/accountsStore");
-var _accounts = accountsStore.getAccounts();
-
-accountsStore.onChange(function(accounts){
+var _accounts = [];
+var getAccountsCallback = function(accounts){
 	_accounts = accounts;
-	render();
-});
+	render();	
+};
+
+accountsStore.onChange(getAccountsCallback);
 
 
 function render(){

@@ -1,6 +1,8 @@
 console.log("AccountStore js Linked");
 
 var dispatcher = require("../dispatcher");
+var accountService = require("../services/accountService");
+
 
 function AccountStore() {
 	var listeners = [];
@@ -8,33 +10,37 @@ function AccountStore() {
                     { name: "Bishop",tagline:"An awesome school" }, 
                     { name: "Daffodils", tagline:"An excellent school" }];
 
-    function getAccounts(){
-    	return accounts;
-    }
 
     function onChange(listener) {
+    	getAccounts(listener);
     	listeners.push(listener);
     }
 
+    function getAccounts(){
+    	accountService.getAccounts().then(function (res){
+    		(res);
+    	});	
+    }
+
     function addAccount(account) {
-    	accounts.push(account)
-    	triggerListeners();
+    	accountService.addAccount(account).then(function (res){
+    		console.log(res);
+    		triggerListeners();
+    	});
     }
 
     function deleteAccount(account) {
-    	var _index;
-    	accounts.map(function (a, index) {
-    		if (a.name === account.name) {
-    			_index = index;
-    		}
+    	accountService.deleteAccount(account).then(function (res){
+    		console.log(res);
+    		triggerListeners();
     	});
-    	accounts.splice(_index, 1);
-    	triggerListeners();
     }
 
     function triggerListeners() {
-    	listeners.forEach(function (listener) {
-    		listener(accounts);
+    	getAccounts(function (res) {
+    		listeners.forEach(function (listener) {
+    			listener(accounts);
+    		});
     	});
     }
 
@@ -53,7 +59,6 @@ function AccountStore() {
     });
 
     return {
-    	getAccounts: getAccounts,
     	onChange: onChange
     }
 }
